@@ -1,0 +1,314 @@
+[gd_scene load_steps=7 format=3 uid="uid://dq3n8v3hlx02h"]
+
+[ext_resource type="Script" path="res://scenes/player_controller.gd" id="1_6i8gi"]
+[ext_resource type="Shader" path="res://scenes/horror_postprocess.gdshader" id="2_2wwd5"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_vqjqo"]
+radius = 0.35
+height = 1.2
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jxom8"]
+shader = ExtResource("2_2wwd5")
+shader_parameter/distortion = 0.0105
+shader_parameter/vignette_strength = 0.72
+shader_parameter/noise_strength = 0.028
+shader_parameter/scanline_strength = 0.018
+shader_parameter/chroma_amount = 0.0018
+shader_parameter/jitter_strength = 0.0012
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_minigame_panel"]
+bg_color = Color(0.03, 0.035, 0.05, 0.84)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.66, 0.72, 0.82, 0.38)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_minigame_bg"]
+bg_color = Color(0.07, 0.08, 0.11, 0.92)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_minigame_fill"]
+bg_color = Color(0.82, 0.92, 1, 0.95)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_liminal_panel"]
+bg_color = Color(0.035, 0.04, 0.055, 0.88)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.86, 0.9, 0.96, 0.32)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_liminal_result_panel"]
+bg_color = Color(0.01, 0.015, 0.03, 0.965)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.83, 0.88, 0.96, 0.36)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+shadow_size = 26
+shadow_color = Color(0, 0, 0, 0.52)
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_6i8gi")
+collision_layer = 1
+collision_mask = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_vqjqo")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0)
+
+[node name="Head" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.65, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Head"]
+current = true
+near = 0.05
+fov = 84.5
+
+[node name="PostProcessLayer" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="PostProcess" type="ColorRect" parent="PostProcessLayer"]
+material = SubResource("ShaderMaterial_jxom8")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 1)
+
+[node name="InteractPrompt" type="Label" parent="PostProcessLayer"]
+visible = false
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -170.0
+offset_top = -96.0
+offset_right = 170.0
+offset_bottom = -56.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 30
+theme_override_colors/font_color = Color(0.95, 0.96, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.95)
+theme_override_constants/outline_size = 10
+horizontal_alignment = 1
+text = "E - выключить компьютер"
+
+[node name="ProgressLabel" type="Label" parent="PostProcessLayer"]
+offset_left = 24.0
+offset_top = 18.0
+offset_right = 420.0
+offset_bottom = 86.0
+theme_override_font_sizes/font_size = 40
+theme_override_colors/font_color = Color(0.86, 0.9, 0.96, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.02, 0.02, 1)
+theme_override_constants/outline_size = 12
+text = "0/6 КОМПЬЮТЕРОВ"
+
+[node name="SubtitleLabel" type="Label" parent="PostProcessLayer"]
+visible = false
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -420.0
+offset_top = -140.0
+offset_right = 420.0
+offset_bottom = -80.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 28
+theme_override_colors/font_color = Color(0.95, 0.96, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.98)
+theme_override_constants/outline_size = 10
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+text = "Стажер: ..."
+
+[node name="WaterFillPanel" type="Panel" parent="PostProcessLayer"]
+visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -360.0
+offset_top = 20.0
+offset_right = 360.0
+offset_bottom = 220.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_minigame_panel")
+
+[node name="WaterFillTitle" type="Label" parent="PostProcessLayer/WaterFillPanel"]
+layout_mode = 0
+offset_left = 28.0
+offset_top = 16.0
+offset_right = 692.0
+offset_bottom = 56.0
+theme_override_font_sizes/font_size = 30
+theme_override_colors/font_color = Color(0.9, 0.94, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.95)
+theme_override_constants/outline_size = 8
+horizontal_alignment = 1
+text = "НАБЕРИ ВОДУ"
+
+[node name="WaterFillInstruction" type="Label" parent="PostProcessLayer/WaterFillPanel"]
+layout_mode = 0
+offset_left = 28.0
+offset_top = 58.0
+offset_right = 692.0
+offset_bottom = 100.0
+theme_override_font_sizes/font_size = 24
+theme_override_colors/font_color = Color(0.8, 0.85, 0.92, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.95)
+theme_override_constants/outline_size = 7
+horizontal_alignment = 1
+text = "Жми по очереди: SHIFT -> ЛКМ"
+
+[node name="WaterFillCurrentKey" type="Label" parent="PostProcessLayer/WaterFillPanel"]
+layout_mode = 0
+offset_left = 28.0
+offset_top = 110.0
+offset_right = 692.0
+offset_bottom = 156.0
+theme_override_font_sizes/font_size = 38
+theme_override_colors/font_color = Color(0.95, 0.98, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.95)
+theme_override_constants/outline_size = 9
+horizontal_alignment = 1
+text = "СЕЙЧАС: SHIFT"
+
+[node name="WaterFillProgressBar" type="ProgressBar" parent="PostProcessLayer/WaterFillPanel"]
+layout_mode = 0
+offset_left = 36.0
+offset_top = 164.0
+offset_right = 684.0
+offset_bottom = 194.0
+theme_override_styles/background = SubResource("StyleBoxFlat_minigame_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_minigame_fill")
+max_value = 100.0
+value = 0.0
+show_percentage = false
+
+[node name="LiminalChallengePanel" type="Panel" parent="PostProcessLayer"]
+visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -320.0
+offset_top = 18.0
+offset_right = 320.0
+offset_bottom = 148.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_liminal_panel")
+
+[node name="LiminalChallengeTitle" type="Label" parent="PostProcessLayer/LiminalChallengePanel"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 14.0
+offset_right = 616.0
+offset_bottom = 46.0
+theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(0.84, 0.89, 0.96, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.95)
+theme_override_constants/outline_size = 6
+horizontal_alignment = 1
+text = "ОТКЛЮЧИ ЧЁРНЫЕ КУЛЕРЫ"
+
+[node name="LiminalChallengeTimer" type="Label" parent="PostProcessLayer/LiminalChallengePanel"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 46.0
+offset_right = 616.0
+offset_bottom = 94.0
+theme_override_font_sizes/font_size = 38
+theme_override_colors/font_color = Color(1, 0.92, 0.84, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.95)
+theme_override_constants/outline_size = 8
+horizontal_alignment = 1
+text = "01:00"
+
+[node name="LiminalChallengeCounter" type="Label" parent="PostProcessLayer/LiminalChallengePanel"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 90.0
+offset_right = 616.0
+offset_bottom = 122.0
+theme_override_font_sizes/font_size = 24
+theme_override_colors/font_color = Color(0.84, 0.92, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.95)
+theme_override_constants/outline_size = 6
+horizontal_alignment = 1
+text = "0/3 КУЛЕРОВ"
+
+[node name="LiminalResultPanel" type="Panel" parent="PostProcessLayer"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -450.0
+offset_top = -180.0
+offset_right = 450.0
+offset_bottom = 180.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_liminal_result_panel")
+
+[node name="LiminalResultTitle" type="Label" parent="PostProcessLayer/LiminalResultPanel"]
+layout_mode = 0
+offset_left = 42.0
+offset_top = 28.0
+offset_right = 858.0
+offset_bottom = 94.0
+theme_override_font_sizes/font_size = 52
+theme_override_colors/font_color = Color(0.86, 0.96, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.98)
+theme_override_constants/outline_size = 12
+horizontal_alignment = 1
+text = "ТЫ СМОГ ВЫЙТИ ИЗ ПЕТЛИ"
+
+[node name="LiminalResultBody" type="Label" parent="PostProcessLayer/LiminalResultPanel"]
+layout_mode = 0
+offset_left = 68.0
+offset_top = 110.0
+offset_right = 832.0
+offset_bottom = 234.0
+theme_override_font_sizes/font_size = 27
+theme_override_colors/font_color = Color(0.88, 0.92, 0.98, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.98)
+theme_override_constants/outline_size = 8
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+text = "ЧЁРНЫЕ КУЛЕРЫ ЗАМОЛКЛИ. ЭТО МЕСТО БОЛЬШЕ НЕ МОЖЕТ ДЕРЖАТЬ ТЕБЯ ЗДЕСЬ."
+
+[node name="LiminalResultMenuButton" type="Button" parent="PostProcessLayer/LiminalResultPanel"]
+layout_mode = 0
+offset_left = 255.0
+offset_top = 268.0
+offset_right = 645.0
+offset_bottom = 326.0
+theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(0.94, 0.96, 1, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.02, 0.03, 1)
+theme_override_constants/outline_size = 8
+text = "ВЕРНУТЬСЯ В ГЛАВНОЕ МЕНЮ"

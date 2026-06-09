@@ -1,0 +1,106 @@
+[gd_scene format=3 uid="uid://vf86bg8bsolg"]
+
+[ext_resource type="PackedScene" uid="uid://cm0wgre243lgc" path="res://assets/models/dreamcore_liminal_space.glb" id="1_liminal"]
+[ext_resource type="Script" uid="uid://bqx08lkp2i5gn" path="res://scenes/boss_interactable.gd" id="2_boss_interactable"]
+[ext_resource type="PackedScene" uid="uid://cbivcqpxvcu7e" path="res://assets/models/boss.glb" id="3_boss"]
+[ext_resource type="PackedScene" uid="uid://wvjvoqd8x8cb" path="res://assets/models/black_cooler.glb" id="4_black_cooler"]
+[ext_resource type="Script" path="res://scenes/liminal_cooler_interactable.gd" id="5_liminal_cooler"]
+
+[sub_resource type="Environment" id="Environment_liminal"]
+background_mode = 1
+background_color = Color(0.84, 0.9, 0.97, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.92, 0.95, 1, 1)
+ambient_light_energy = 0.87
+tonemap_mode = 3
+adjustment_enabled = true
+adjustment_brightness = 1.28
+adjustment_contrast = 0.96
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_editor_pad"]
+transparency = 1
+albedo_color = Color(0.2, 0.95, 0.82, 0.9)
+emission_enabled = true
+emission = Color(0.2, 0.95, 0.82, 1)
+emission_energy_multiplier = 0.9
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_editor_pad"]
+material = SubResource("StandardMaterial3D_editor_pad")
+top_radius = 0.6
+bottom_radius = 0.6
+height = 0.06
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_head_collider"]
+size = Vector3(1.2, 1.2, 1.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_cooler_collider"]
+size = Vector3(2, 3, 2)
+
+[node name="LiminalSpaceRoom" type="Node3D" unique_id=1295857245]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=65393221]
+environment = SubResource("Environment_liminal")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=111724215]
+transform = Transform3D(0.869535, -0.493874, 0, 0.340094, 0.598743, -0.724851, 0.357978, 0.630371, 0.689906, 0, 0, 0)
+visible = false
+light_color = Color(0.95, 0.97, 1, 1)
+light_energy = 0.4
+light_specular = 0.0
+
+[node name="LiminalSpace" parent="." unique_id=1757888198 instance=ExtResource("1_liminal")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8408879, -7.5198, -0.37637472)
+
+[node name="PlayerSpawn" type="Marker3D" parent="." unique_id=1066000706]
+transform = Transform3D(1, 0, 0, 0, 0.04, 0, 0, 0, 1, -76.49107, 1.6622518, 39.24032)
+
+[node name="LiminalBossCutsceneCamera" type="Camera3D" parent="." unique_id=721103844]
+transform = Transform3D(0.79547346, 0, -0.60598844, 0, 1, 0, 0.60598844, 0, 0.79547346, -88.6226, 1.5799136, 31.261997)
+
+[node name="LiminalBoss" parent="." unique_id=485020998 instance=ExtResource("3_boss")]
+transform = Transform3D(40.13, 0, 0, 0, 39.910168, 4.194728, 0, -4.194728, 39.910168, -80.319695, -45.35415, 22.435837)
+
+[node name="LiminalBossTalkTrigger" type="Node3D" parent="." unique_id=17832106]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -80.319695, -2.448556, 23.80804)
+script = ExtResource("2_boss_interactable")
+
+[node name="TalkPad" type="MeshInstance3D" parent="LiminalBossTalkTrigger" unique_id=1459154421]
+transform = Transform3D(0.45, 0, 0, 0, 0.45, 0, 0, 0, 0.45, 0, 0, 0)
+mesh = SubResource("CylinderMesh_editor_pad")
+
+[node name="HeadCollider" type="StaticBody3D" parent="LiminalBossTalkTrigger" unique_id=1326086151]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LiminalBossTalkTrigger/HeadCollider" unique_id=1444094078]
+transform = Transform3D(5.71, 0, 0, 0, 7.15, 0, 0, 0, 6.114, -0.20903778, 1.7452674, 0.05263138)
+shape = SubResource("BoxShape3D_head_collider")
+
+[node name="LiminalBlackCooler" parent="." unique_id=24899962 instance=ExtResource("4_black_cooler")]
+transform = Transform3D(1.2451355, 0, -19.79087, 0, 19.83, 0, 19.79087, 0, 1.2451355, -76.59348, 12.800949, -45.76365)
+script = ExtResource("5_liminal_cooler")
+interaction_radius = 5.0
+
+[node name="CoolerCollider" type="StaticBody3D" parent="LiminalBlackCooler" unique_id=1299697764]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LiminalBlackCooler/CoolerCollider" unique_id=785682734]
+transform = Transform3D(0.26, 0, 1.7193648e-09, 0, 0.26, 0, -3.7252903e-09, 0, 0.12, -0.08139968, 0, -0.005121231)
+shape = SubResource("BoxShape3D_cooler_collider")
+
+[node name="LiminalBlackCooler2" parent="." unique_id=632486405 instance=ExtResource("4_black_cooler")]
+transform = Transform3D(0.627905, 0, -9.980268, 0, 10, 0, 9.980268, 0, 0.627905, -40.10174, 4.65621, -0.04480934)
+script = ExtResource("5_liminal_cooler")
+
+[node name="CoolerCollider" type="StaticBody3D" parent="LiminalBlackCooler2" unique_id=1614439913]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LiminalBlackCooler2/CoolerCollider" unique_id=638010058]
+transform = Transform3D(0.13, 0, 1.8626451e-09, 0, 0.13000003, 0, -1.8626451e-09, 0, 0.13, -0.0023086965, -0.28657097, -0.00014543533)
+shape = SubResource("BoxShape3D_cooler_collider")
+
+[node name="LiminalBlackCooler3" parent="." unique_id=373969368 instance=ExtResource("4_black_cooler")]
+transform = Transform3D(0.94185746, 0, -14.970401, 0, 15, 0, 14.970401, 0, 0.94185746, -100.22908, 9.206735, -13.3718405)
+script = ExtResource("5_liminal_cooler")
+
+[node name="CoolerCollider" type="StaticBody3D" parent="LiminalBlackCooler3" unique_id=984334631]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LiminalBlackCooler3/CoolerCollider" unique_id=1124441962]
+transform = Transform3D(0.14, 0, -1.8626451e-09, 0, 0.13999999, 0, 1.8626451e-09, 0, 0.14, 0, -0.26713824, 0)
+shape = SubResource("BoxShape3D_cooler_collider")

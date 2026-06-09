@@ -1,0 +1,39 @@
+# Project Memory
+
+- Workspace started empty, so the office location is generated from a deterministic Godot scene builder instead of hand-editing `.tscn`.
+- `res://scenes/office_level.tscn` is the main scene and represents an open-plan office with 12 cubicles, props, ceiling lights, and a meeting corner.
+- `res://test/test_office_layout.gd` is the quick validation harness for office layout counts.
+- `res://scenes/game.tscn` is the runtime entry scene; it instances the office plus a first-person player.
+- `res://scenes/player.tscn` and `res://scenes/player_controller.gd` handle `WASD`, sprint, mouse-look, and mouse capture toggle with `Esc`.
+- `res://scenes/horror_postprocess.gdshader` drives the fullscreen camera look, so visual atmosphere tweaks should happen there instead of hand-editing the editor viewport.
+
+- `res://scenes/game_controller.gd` now orchestrates shutdown-count horror events; on the 3rd powered-off computer it runs blackout -> normal-lit ceiling-chair reveal -> blackout -> restore.
+- The 3rd shutdown chair reveal now lasts 2.0 seconds and uses per-chair randomized drift, bob, and spin values so the ceiling movement feels less synchronized.
+- The 4th shutdown runner now comes from `res://scenes/runner_woman_preview.tscn` instead of runtime auto-fitting, so her transform can be tuned directly in the editor and reused in-game without code coordinate drift.
+- `res://scenes/runner_woman_preview.tscn` currently uses a centered, floor-grounded manual transform (`scale ≈ 0.01`, `y ≈ 1.44`) so the apparition crosses the aisle visibly instead of drifting into the ceiling.
+- The 4th shutdown runner pass is intentionally slowed down in `res://scenes/game_controller.gd` (`run duration 4.2s`, animation speed `0.42`) so the apparition reads clearly in the corridor.
+- `res://scenes/computer_terminal.gd` emits `power_off_completed` and supports manual `ScreenWhite` displays plus temporary display hiding during scripted events.
+- `res://audio/voice/` stores player voice lines for post-shutdown events; `player_event_2..6.mp3` are mapped to shutdown events 2..6, while extra files remain unused as reserve takes.
+- `res://scenes/game_controller.gd` now delays each player voice line by 1 second after its event and sends matching subtitles to the player HUD.
+- `res://scenes/player.tscn` and `res://scenes/player_controller.gd` now include a bottom subtitle label that shows `Стажер: ...` lines for the duration of the current voice clip.
+- `res://scenes/office_level.tscn` now contains `OfficeProps/OfficeWorkers` with four `office_worker_*_animated.glb` instances for the populated-office second cycle; they are hidden in cycle 1 and shown from cycle 2 onward.
+- `res://scenes/app_root.gd` tracks `loop_cycle_index` across loop restarts, and `res://scenes/game_controller.gd` uses that meta to toggle second-cycle office workers.
+- Second-cycle office state now also hides the original `Desk`/`Chair` nodes in `Cubicle02`, `Cubicle05`, and `Cubicle06`, switches the exit-door sign text from `ВЫХОДА НЕТ` to `БОСС`, hides the HUD progress counter, and disables the VHS post-process overlay.
+- The four office worker GLBs do contain `AnimationPlayer` tracks; worker 1 uses `OW_1`, worker 2 `OW_2`, worker 3 `typing`, and worker 4 should stay on `idle` because the user explicitly approved that pose.
+- Office workers now also have simple workstation collision boxes baked into `office_level.tscn`, and those collisions must only be active from cycle 2 onward so the first-cycle cubicles remain traversable.
+- The second-cycle boss door is the same `ExitDoor` node as the first-cycle finale door; `game_controller.gd`/`final_exit_door.gd` must keep it interactable in cycle 2 instead of immediately hiding it again.
+- `res://audio/voice/second_cycle/` stores the wake-up lines for cycle 2 as `player_cycle2_1..4.mp3`; `game_controller.gd` plays them 1 second after cycle 2 starts, one after another, with bottom subtitles prefixed `Стажер:`.
+- Water fill success in the boss room now immediately plays `res://audio/scare_hit.mp3`, teleports the player into `res://scenes/liminal_space_room.tscn`, then after 1 second plays `res://audio/voice/liminal/spawn.mp3` with the subtitle `Стажер: Нет... Черт, что это за место???`.
+- `res://audio/office_noise.MP3` is the populated-office loop for cycle 2; `game_controller.gd` starts it when the second cycle begins and fades it out before the boss-room transition.
+- `res://scenes/boss_office_room.tscn` is the separate boss-room scene built with the same wall/floor/ceiling textures as the office; the `BossCharacter` node inside it comes from `res://assets/models/boss.glb` and is meant to be manually positioned in the editor.
+- In cycle 2 the existing `ExitDoor` should show prompt text `E - зайти к боссу` and send the player into `boss_office_room.tscn` instead of restarting the loop.
+- `res://scenes/boss_office_room.tscn` now also contains three manually placeable cooler nodes (`Cooler01..03`); their transforms and collider placement are now user-tuned in the editor and should be treated as source-of-truth rather than auto-recomputed.
+- `res://scenes/computer_terminal.gd` must check `is_visible_in_tree()` before interaction so hidden first-cycle terminals do not leak fake `E - выключить компьютер` prompts into the boss room.
+- `res://scenes/water_cooler_interactable.gd` drives the boss-room cooler prompts (`E - набрать воды`), and `res://scenes/game_controller.gd` now unlocks those coolers only after the boss dialogue finishes.
+- The boss-room water-fill minigame is a locked-camera alternating-input QTE (`Shift -> LMB`) with a top HUD panel implemented in `res://scenes/player.tscn` / `res://scenes/player_controller.gd`; progress decays over time and success currently just completes the fill step and restores control.
+- `res://scenes/liminal_space_room.tscn` now contains a separate `LiminalBossCutsceneCamera`, a boss head talk trigger, and three black cooler nodes; the user may hand-place these in the editor and those transforms should be treated as source-of-truth.
+- `res://audio/voice/liminal_boss_dialogue/liminal_boss_dialogue_1..20.mp3` drive the second boss dialogue in liminal space; `game_controller.gd` plays them one-by-one with subtitles after interacting with the liminal boss.
+- `res://scenes/liminal_cooler_interactable.gd` drives black-cooler prompts in liminal space (`E - выключить кулер`); the first black cooler currently has a larger interaction radius than the other two.
+- After the liminal boss dialogue ends, `game_controller.gd` starts a 50-second challenge to disable all 3 black coolers, with dedicated HUD/result panels from `res://scenes/player.tscn`.
+- The liminal challenge also spawns the runner woman from cycle 1 as a roaming threat; she now patrols toward random ground points on the dreamcore field using collision-aware movement until the challenge ends.
+- `res://scenes/player.tscn` / `res://scenes/player_controller.gd` now also include a dedicated liminal challenge HUD (timer + `0/3 КУЛЕРОВ`) and a centered result panel for victory/defeat states.

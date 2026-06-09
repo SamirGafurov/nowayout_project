@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://c5befeux340y6"]
+
+[ext_resource type="PackedScene" uid="uid://b7qieste3efv8" path="res://assets/models/office_runner_woman.glb" id="1_runner"]
+
+[node name="RunnerWomanPreview" type="Node3D" unique_id=1041975081]
+
+[node name="RunnerModel" parent="." unique_id=971618202 instance=ExtResource("1_runner")]
+transform = Transform3D(-0.017, 0, -2.566929e-09, 0, 0.017, 0, 2.566929e-09, 0, -0.017, 0, 0, 0)

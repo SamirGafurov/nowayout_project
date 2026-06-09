@@ -1,0 +1,256 @@
+[gd_scene format=3 uid="uid://cfeyqxxaqdqgw"]
+
+[ext_resource type="Script" uid="uid://cn72lhc2fxxcc" path="res://scenes/app_root.gd" id="1_4skvd"]
+[ext_resource type="Texture2D" uid="uid://iuod17hvk13" path="res://assets/textures/main_menu_background.png" id="2_8s0gg"]
+
+[node name="App" type="Node" unique_id=1929874331]
+script = ExtResource("1_4skvd")
+
+[node name="GameMount" type="Node" parent="." unique_id=1184938412]
+
+[node name="UILayer" type="CanvasLayer" parent="." unique_id=1771165648]
+layer = 20
+
+[node name="MenuRoot" type="Control" parent="UILayer" unique_id=1169964637]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Backdrop" type="TextureRect" parent="UILayer/MenuRoot" unique_id=438655254]
+modulate = Color(0.82, 0.86, 0.92, 0.82)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -162.0
+offset_top = -65.0
+offset_bottom = 57.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_8s0gg")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="AccentGlow" type="ColorRect" parent="UILayer/MenuRoot" unique_id=38185697]
+layout_mode = 0
+offset_left = -80.0
+offset_top = -40.0
+offset_right = 420.0
+offset_bottom = 980.0
+color = Color(0.16, 0.04, 0.05, 0.22)
+
+[node name="MenuPanel" type="Panel" parent="UILayer/MenuRoot" unique_id=828226278]
+layout_mode = 0
+offset_left = 96.0
+offset_top = 120.0
+offset_right = 760.0
+offset_bottom = 739.0
+
+[node name="Title" type="Label" parent="UILayer/MenuRoot/MenuPanel" unique_id=144314401]
+layout_mode = 0
+offset_left = 44.0
+offset_top = 42.0
+offset_right = 560.0
+offset_bottom = 150.0
+theme_override_colors/font_color = Color(0.93, 0.95, 0.98, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.02, 0.03, 1)
+theme_override_constants/outline_size = 16
+theme_override_font_sizes/font_size = 92
+text = "ВЫХОДА НЕТ"
+
+[node name="Subtitle" type="Label" parent="UILayer/MenuRoot/MenuPanel" unique_id=282624052]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 166.0
+offset_right = 602.0
+offset_bottom = 242.0
+theme_override_colors/font_color = Color(0.74, 0.79, 0.86, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.02, 0.03, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 26
+text = "ОФИСНЫЙ ХОРРОР О БЕСКОНЕЧНОЙ ПЕТЛЕ"
+
+[node name="Description" type="Label" parent="UILayer/MenuRoot/MenuPanel" unique_id=1483908100]
+layout_mode = 0
+offset_left = 43.0
+offset_top = 248.0
+offset_right = 597.0
+offset_bottom = 470.0
+theme_override_colors/font_color = Color(0.88, 0.9, 0.94, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.02, 0.03, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 30
+text = "ПОСЛЕДНИЙ СОТРУДНИК ОСТАЛСЯ В ОФИСЕ, ЧТОБЫ ОТКЛЮЧИТЬ КОМПЬЮТЕРЫ. ВЫХОД ГДЕ-ТО РЯДОМ РЯДОМ, ЧТО МОЖЕТ ПОЙТИ НЕ ТАК?"
+autowrap_mode = 2
+
+[node name="StartButton" type="Button" parent="UILayer/MenuRoot/MenuPanel" unique_id=2132237938]
+layout_mode = 0
+offset_left = 41.0
+offset_top = 502.0
+offset_right = 595.0
+offset_bottom = 576.0
+text = "НАЧАТЬ ИГРУ"
+
+[node name="LoadingRoot" type="Control" parent="UILayer" unique_id=121305095]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LoadingBackdrop" type="ColorRect" parent="UILayer/LoadingRoot" unique_id=515538244]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.015, 0.02, 0.03, 1)
+
+[node name="LoadingPanel" type="Panel" parent="UILayer/LoadingRoot" unique_id=754118673]
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -320.0
+offset_top = -150.0
+offset_right = 320.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LoadingLabel" type="Label" parent="UILayer/LoadingRoot/LoadingPanel" unique_id=1571334916]
+layout_mode = 0
+offset_left = 52.0
+offset_top = 34.0
+offset_right = 592.0
+offset_bottom = 114.0
+theme_override_colors/font_color = Color(0.93, 0.95, 0.98, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.02, 0.03, 1)
+theme_override_constants/outline_size = 14
+theme_override_font_sizes/font_size = 64
+text = "ВЫХОДА НЕТ"
+horizontal_alignment = 1
+
+[node name="LoadingStatus" type="Label" parent="UILayer/LoadingRoot/LoadingPanel" unique_id=1101122974]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 130.0
+offset_right = 584.0
+offset_bottom = 176.0
+theme_override_colors/font_color = Color(0.77, 0.81, 0.87, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.02, 0.03, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 26
+text = "ИНИЦИАЛИЗАЦИЯ ОФИСА"
+horizontal_alignment = 1
+
+[node name="LoadingBar" type="ProgressBar" parent="UILayer/LoadingRoot/LoadingPanel" unique_id=1996860227]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 212.0
+offset_right = 584.0
+offset_bottom = 248.0
+show_percentage = false
+
+[node name="IntroRoot" type="Control" parent="UILayer"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="IntroBackdrop" type="ColorRect" parent="UILayer/IntroRoot"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="IntroLabel" type="Label" parent="UILayer/IntroRoot"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -500.0
+offset_top = -48.0
+offset_right = 500.0
+offset_bottom = 48.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "23:47"
+
+[node name="PauseRoot" type="Control" parent="UILayer" unique_id=1670841700]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PauseBackdrop" type="ColorRect" parent="UILayer/PauseRoot" unique_id=801548174]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.01, 0.01, 0.02, 0.78)
+
+[node name="PausePanel" type="Panel" parent="UILayer/PauseRoot" unique_id=552702075]
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -290.0
+offset_top = -170.0
+offset_right = 290.0
+offset_bottom = 170.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PauseTitle" type="Label" parent="UILayer/PauseRoot/PausePanel" unique_id=1017692756]
+layout_mode = 0
+offset_left = 36.0
+offset_top = 34.0
+offset_right = 544.0
+offset_bottom = 108.0
+theme_override_colors/font_color = Color(0.93, 0.95, 0.98, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.02, 0.03, 1)
+theme_override_constants/outline_size = 14
+theme_override_font_sizes/font_size = 62
+text = "ПАУЗА"
+horizontal_alignment = 1
+
+[node name="ResumeButton" type="Button" parent="UILayer/PauseRoot/PausePanel" unique_id=1191864859]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 136.0
+offset_right = 540.0
+offset_bottom = 210.0
+text = "ПРОДОЛЖИТЬ"
+
+[node name="MenuButton" type="Button" parent="UILayer/PauseRoot/PausePanel" unique_id=542382456]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 228.0
+offset_right = 540.0
+offset_bottom = 302.0
+text = "ГЛАВНОЕ МЕНЮ"
+
+[connection signal="pressed" from="UILayer/MenuRoot/MenuPanel/StartButton" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="UILayer/PauseRoot/PausePanel/ResumeButton" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="UILayer/PauseRoot/PausePanel/MenuButton" to="." method="_on_menu_pressed"]

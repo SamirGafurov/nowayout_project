@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/office_level.tscn" id="1_4qd76"]
+[ext_resource type="PackedScene" path="res://scenes/player.tscn" id="2_7tl7x"]
+[ext_resource type="Script" path="res://scenes/game_controller.gd" id="3_4m5tl"]
+
+[node name="Game" type="Node3D"]
+script = ExtResource("3_4m5tl")
+
+[node name="OfficeLevel" parent="." instance=ExtResource("1_4qd76")]
+
+[node name="Player" parent="." instance=ExtResource("2_7tl7x")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7.1)
